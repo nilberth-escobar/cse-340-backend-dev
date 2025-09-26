@@ -1,0 +1,66 @@
+<% if (title) { %>
+  <h1><%= title %></h1>
+<% } else {
+  res.redirect('/')
+} %>
+
+<% if (errors) { %>
+  <ul class="notice">
+ <% errors.array().forEach(error => { %>
+   <li><%= error.msg %></li>
+<%  }) %>
+ </ul>
+<% } %>
+
+
+<%# Flash message display capability %>
+<%# messages() %>
+
+<div class="register-container">
+  <form id="registrationForm" action="/account/register" method="post">
+    
+    <div class="form-group">
+      <label for="account_firstname">First Name:</label>
+      <input type="text" id="account_firstname" name="account_firstname" 
+             value="<%= locals.account_firstname ? account_firstname : '' %>" required>
+    </div>
+    
+    <div class="form-group">
+      <label for="account_lastname">Last Name:</label>
+      <input type="text" id="account_lastname" name="account_lastname" 
+             value="<%= locals.account_lastname ? account_lastname : '' %>" required>
+    </div>
+    
+    <div class="form-group">
+      <label for="account_email">Email Address:</label>
+      <input type="email" id="account_email" name="account_email" 
+             value="<%= locals.account_email ? account_email : '' %>" required>
+    </div>
+    
+    <div class="form-group">
+      <label for="account_password">Password:</label>
+      <input type="password" id="account_password" name="account_password" 
+             pattern="^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{12,}$"
+             title="Password must be at least 12 characters and contain at least 1 capital letter, 1 number, and 1 special character (!@#$%^&*)"
+             required>
+      <div class="password-requirements">
+        <p><strong>Password Requirements:</strong></p>
+        <ul>
+          <li>Minimum 12 characters in length</li>
+          <li>At least 1 capital letter</li>
+          <li>At least 1 number</li>
+          <li>At least 1 special character (!@#$%^&*)</li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="form-group">
+      <button type="submit" class="register-btn">Register</button>
+    </div>
+    
+  </form>
+  
+  <div class="login-link">
+    <p>Already have an account? <a href="/account/login" title="Go to login page">Sign In</a></p>
+  </div>
+</div>
