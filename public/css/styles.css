@@ -671,3 +671,136 @@ input[type="password"]:focus:invalid {
 input[type="password"]:focus:valid {
   box-shadow: 0 0 0 2px rgba(40, 167, 69, 0.25);
 }
+
+/* Management View Styles */
+.management-container {
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+}
+
+.management-container h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.management-container ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.management-container li {
+  margin-bottom: 1rem;
+}
+
+.management-container a {
+  display: block;
+  padding: 1rem;
+  background-color: #007bff;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.management-container a:hover {
+  background-color: #0056b3;
+  text-decoration: none;
+}
+
+/* Generic Form Container */
+.form-container {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.form-container .form-group input,
+.form-container .form-group textarea,
+.form-container .form-group select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.form-container .form-group textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.form-container .form-btn {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.form-container .form-btn:hover {
+  background-color: #218838;
+}
+
+/* Flash Message and Validation Error Styles */
+#messages ul,
+.notice {
+  padding: 1rem 1.5rem;
+  margin: 1.5rem 0;
+  border-radius: 8px;
+  list-style: none;
+  font-size: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  border: 1px solid transparent;
+}
+
+#messages li,
+.notice li {
+  margin-bottom: 0.5rem;
+}
+
+#messages li:last-child,
+.notice li:last-child {
+  margin-bottom: 0;
+}
+
+
+/* Success Messages (from connect-flash 'notice') */
+#messages .notice, #messages .success {
+  background-color: #e6fffa;
+  color: #0d7d6b;
+  border-color: #bee3d7;
+}
+
+
+/* Error Messages (from validation) */
+ul.notice {
+  background-color: #fff5f5;
+  color: #c53030;
+  border-color: #fed7d7;
+  padding-left: 1.5rem; /* Ensure padding is consistent */
+}
+
+/* If express-messages adds an error class */
+#messages .error {
+    background-color: #fff5f5;
+    color: #c53030;
+    border-color: #fed7d7;
+}
+
+
+
