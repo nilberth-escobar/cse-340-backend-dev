@@ -38,6 +38,7 @@ const cookieParser = require("cookie-parser")
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cookieParser())
+app.use(utilities.checkJWTToken)
 
 
 
@@ -71,6 +72,7 @@ app.use("/account", accountRoute)
 
 //index route
 app.get('/', baseController.buildHome)
+app.get('')
 
 
 /* ***********************
