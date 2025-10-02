@@ -20,6 +20,9 @@ router.get("/add-inventory", invController.buildAddInventoryView);
 // Route to get inventory based on classification_id
 router.get("/getInventory/:classification_id", (invController.getInventoryJSON))
 
+// Route to build the edit inventory view
+router.get("/edit/:inv_id", (invController.editInventoryView))
+
 // Process the new classification data
 router.post(
     "/add-classification",
