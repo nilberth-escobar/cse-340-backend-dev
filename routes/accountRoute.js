@@ -12,7 +12,7 @@ router.get("/login", (accountController.buildLogin))
 router.get("/register", (accountController.buildRegister))
 
 // Route to the account management view
-router.get("/", (accountController.buildAccountManagementView))
+router.get("/", utilities.checkLogin, (accountController.buildAccountManagementView))
 
 // Route to build login view
 router.get("/login", (accountController.buildLogin))
