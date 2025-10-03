@@ -14,8 +14,11 @@ router.get("/register", (accountController.buildRegister))
 // Route to the account management view
 router.get("/", utilities.checkLogin, (accountController.buildAccountManagementView))
 
-// Route to build login view
-router.get("/login", (accountController.buildLogin))
+// Route to build the account update view
+router.get("/update/:accountId", utilities.checkLogin, (accountController.buildUpdateView))
+
+// Route for logout
+router.get("/logout", (accountController.logout))
 
 // Route to process registration
 router.post(
@@ -25,12 +28,29 @@ router.post(
     (accountController.registerAccount))
 
 // Process the login attempt
-// Process the login request
 router.post(
   "/login",
   regValidate.loginRules(),
   regValidate.checkLoginData,
   (accountController.accountLogin)
+)
+
+// Process the update account data
+router.post(
+    '/update-info', 
+    utilities.checkLogin,
+    regValidate.updateAccountRules(),
+    regValidate.checkUpdateData,
+    (accountController.updateAccount)
+)
+
+// Process the password update
+router.post(
+    '/update-password',
+    utilities.checkLogin, 
+    regValidate.updatePasswordRules(),
+    regValidate.checkPasswordData,
+    (accountController.updatePassword)
 )
 
 module.exports = router

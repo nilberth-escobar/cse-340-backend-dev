@@ -1002,3 +1002,61 @@ ul.notice {
 .button-submit:hover {
   background-color: #0056b3;
 }
+
+/* ... existing code ... */
+.login-link a:hover {
+  text-decoration: underline;
+}
+
+/* Header Styles */
+#top-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #fff;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.siteName a {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+  text-decoration: none;
+}
+
+#tools {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+#tools a {
+  text-decoration: none;
+  color: #555;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+#tools a:hover {
+  background-color: #f0f0f0;
+  color: #000;
+}
+
+#tools a[title*="log out"] {
+  background-color: #007bff;
+  color: white;
+}
+
+#tools a[title*="log out"]:hover {
+  background-color: #0056b3;
+}
+
+
+/* Password validation styling */
+input:invalid {
+  border-color: #dc3545;
+}
+/* ... existing code ... */

@@ -171,7 +171,7 @@ Util.checkJWTToken = (req, res, next) => {
 }
 
 /* ****************************************
- *  Check Login
+ * Check Login
  * ************************************ */
  Util.checkLogin = (req, res, next) => {
   if (res.locals.loggedin) {
@@ -179,6 +179,30 @@ Util.checkJWTToken = (req, res, next) => {
   } else {
     req.flash("notice", "Please log in.")
     return res.redirect("/account/login")
+  }
+ }
+
+ /* ****************************************
+ * Middleware For Handling Errors
+ * Wrap other function in this for 
+ * General Error Handling
+ **************************************** */
+//Util.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next)
+
+ /* ****************************************
+ * Middleware to check token and account type
+ **************************************** */
+Util.checkAccountType = (req, res, next) => {
+  if (res.locals.loggedin) {
+    if (res.locals.accountData.account_type === "Employee" || res.locals.accountData.account_type === "Admin") {
+      next()
+    } else {
+      req.flash("notice", "You are not authorized to access this page.")
+      res.redirect("/account/login")
+    }
+  } else {
+    req.flash("notice", "You are not authorized to access this page. Please log in.")
+    res.redirect("/account/login")
   }
  }
 
