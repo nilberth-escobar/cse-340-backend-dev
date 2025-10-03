@@ -23,6 +23,9 @@ router.get("/getInventory/:classification_id", (invController.getInventoryJSON))
 // Route to build the edit inventory view
 router.get("/edit/:inv_id", (invController.editInventoryView))
 
+// Route to build the delete confirmation view
+router.get("/delete/:inv_id", (invController.buildDeleteConfirmationView))
+
 // Process the new classification data
 router.post(
     "/add-classification",
@@ -47,5 +50,12 @@ router.post(
     (invController.updateInventory)
   );
 
+// Process the delete request
+router.post(
+    "/delete/",
+    (invController.deleteInventoryItem)
+);
+
 
 module.exports = router;
+
