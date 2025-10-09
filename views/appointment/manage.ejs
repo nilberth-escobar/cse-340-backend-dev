@@ -1,0 +1,135 @@
+<% if (title) { %>
+  <h1><%= title %></h1>
+<% } else {
+  res.redirect('/')
+} %>
+
+<%- messages() %>
+
+<% if (errors) { %>
+  <ul class="notice">
+    <% errors.array().forEach(error => { %>
+      <li><%= error.msg %></li>
+    <% }) %>
+  </ul>
+<% } %>
+
+<div class="manage-appointments-container">
+  <div class="filter-controls">
+    <label for="statusFilter">Filter by Status:</label>
+    <select id="statusFilter" onchange="filterAppointments()">
+      <option value="all">All Appointments</option>
+      <option value="pending">Pending</option>
+      <option value="confirmed">Confirmed</option>
+      <option value="completed">Completed</option>
+      <option value="cancelled">Cancelled</option>
+    </select>
+  </div>
+
+  <% if (appointments && appointments.length > 0) { %>
+    <div class="appointments-table-container">
+      <table class="appointments-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Customer</th>
+            <th>Vehicle</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Status</th>
+            <th>Notes</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% appointments.forEach(appointment => { %>
+            <tr class="appointment-row" data-status="<%= appointment.appointment_status %>">
+              <td><%= appointment.appointment_id %></td>
+              <td>
+                <strong><%= appointment.account_firstname %> <%= appointment.account_lastname %></strong><br>
+                <small><%= appointment.account_email %></small>
+              </td>
+              <td><%= appointment.inv_year %> <%= appointment.inv_make %> <%= appointment.inv_model %></td>
+              <td><%= new Date(appointment.appointment_date).toLocaleDateString('en-US') %></td>
+              <td><%= new Date('2000-01-01T' + appointment.appointment_time).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }) %></td>
+              <td>
+                <span class="status-badge <%= appointment.appointment_status %>">
+                  <%= appointment.appointment_status.charAt(0).toUpperCase() + appointment.appointment_status.slice(1) %>
+                </span>
+              </td>
+              <td>
+                <% if (appointment.notes) { %>
+                  <span class="notes-preview" title="<%= appointment.notes %>">
+                    <%= appointment.notes.substring(0, 50) %><%= appointment.notes.length > 50 ? '...' : '' %>
+                  </span>
+                <% } else { %>
+                  <em>No notes</em>
+                <% } %>
+              </td>
+              <td class="action-buttons">
+                <% if (appointment.appointment_status === 'pending') { %>
+                  <form action="/appointment/update-status" method="post" style="display: inline;">
+                    <input type="hidden" name="appointment_id" value="<%= appointment.appointment_id %>">
+                    <input type="hidden" name="status" value="confirmed">
+                    <button type="submit" class="btn-confirm" title="Confirm Appointment">
+                      ✓ Confirm
+                    </button>
+                  </form>
+                  <form action="/appointment/update-status" method="post" style="display: inline;">
+                    <input type="hidden" name="appointment_id" value="<%= appointment.appointment_id %>">
+                    <input type="hidden" name="status" value="cancelled">
+                    <button type="submit" class="btn-cancel" title="Cancel Appointment"
+                            onclick="return confirm('Cancel this appointment?')">
+                      ✗ Cancel
+                    </button>
+                  </form>
+                <% } else if (appointment.appointment_status === 'confirmed') { %>
+                  <form action="/appointment/update-status" method="post" style="display: inline;">
+                    <input type="hidden" name="appointment_id" value="<%= appointment.appointment_id %>">
+                    <input type="hidden" name="status" value="completed">
+                    <button type="submit" class="btn-complete" title="Mark as Completed">
+                      ✓ Complete
+                    </button>
+                  </form>
+                  <form action="/appointment/update-status" method="post" style="display: inline;">
+                    <input type="hidden" name="appointment_id" value="<%= appointment.appointment_id %>">
+                    <input type="hidden" name="status" value="cancelled">
+                    <button type="submit" class="btn-cancel" title="Cancel Appointment"
+                            onclick="return confirm('Cancel this appointment?')">
+                      ✗ Cancel
+                    </button>
+                  </form>
+                <% } else { %>
+                  <em>No actions</em>
+                <% } %>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  <% } else { %>
+    <div class="no-appointments">
+      <p>No test drive appointments found.</p>
+    </div>
+  <% } %>
+</div>
+
+<script>
+function filterAppointments() {
+  const filter = document.getElementById('statusFilter').value;
+  const rows = document.querySelectorAll('.appointment-row');
+  
+  rows.forEach(row => {
+    if (filter === 'all' || row.dataset.status === filter) {
+      row.style.display = '';
+    } else {
+      row.style.display = 'none';
+    }
+  });
+}
+</script>
+
+<style>
+
+</style>

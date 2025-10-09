@@ -1,0 +1,69 @@
+<% if (title) { %>
+  <h1><%= title %></h1>
+<% } else {
+  res.redirect('/')
+} %>
+
+<%- messages() %>
+
+<% if (errors) { %>
+  <ul class="notice">
+    <% errors.array().forEach(error => { %>
+      <li><%= error.msg %></li>
+    <% }) %>
+  </ul>
+<% } %>
+
+<div class="appointments-container">
+  <% if (appointments && appointments.length > 0) { %>
+    <div class="appointments-list">
+      <% appointments.forEach(appointment => { %>
+        <div class="appointment-card status-<%= appointment.appointment_status %>">
+          <div class="appointment-header">
+            <h3><%= appointment.inv_year %> <%= appointment.inv_make %> <%= appointment.inv_model %></h3>
+            <span class="status-badge <%= appointment.appointment_status %>">
+              <%= appointment.appointment_status.charAt(0).toUpperCase() + appointment.appointment_status.slice(1) %>
+            </span>
+          </div>
+          
+          <div class="appointment-body">
+            <div class="appointment-image">
+              <img src="<%= appointment.inv_image %>" alt="<%= appointment.inv_make %> <%= appointment.inv_model %>">
+            </div>
+            
+            <div class="appointment-details">
+              <p><strong>Date:</strong> <%= new Date(appointment.appointment_date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) %></p>
+              <p><strong>Time:</strong> <%= new Date('2000-01-01T' + appointment.appointment_time).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }) %></p>
+              
+              <% if (appointment.notes) { %>
+                <p><strong>Notes:</strong> <%= appointment.notes %></p>
+              <% } %>
+              
+              <p class="appointment-created">
+                <small>Requested on <%= new Date(appointment.created_at).toLocaleDateString('en-US') %></small>
+              </p>
+            </div>
+          </div>
+          
+          <div class="appointment-actions">
+            <% if (appointment.appointment_status === 'pending' || appointment.appointment_status === 'confirmed') { %>
+              <a href="/inv/detail/<%= appointment.inv_id %>" class="btn-view">View Vehicle</a>
+              <a href="/appointment/cancel/<%= appointment.appointment_id %>" 
+                 class="btn-cancel"
+                 onclick="return confirm('Are you sure you want to cancel this appointment?')">
+                Cancel Appointment
+              </a>
+            <% } else { %>
+              <a href="/inv/detail/<%= appointment.inv_id %>" class="btn-view">View Vehicle</a>
+            <% } %>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  <% } else { %>
+    <div class="no-appointments">
+      <p>You don't have any test drive appointments scheduled.</p>
+      <p><a href="/" class="btn-browse">Browse Our Inventory</a></p>
+    </div>
+  <% } %>
+</div>

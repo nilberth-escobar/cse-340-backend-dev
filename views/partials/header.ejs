@@ -4,8 +4,21 @@
     </span>
     <div id="tools">
         <% if (locals.loggedin) { %>
-            <a href="/account/">Welcome <%= locals.accountData.account_firstname %></a>
-            <a title="Click to log out" href="/account/logout">Logout</a>
+            <div class="user-info">
+                <a href="/account/">Welcome <%= locals.accountData.account_firstname %></a>
+                
+                <% if (locals.accountData.account_type === 'Employee' || locals.accountData.account_type === 'Admin') { %>
+                    <a href="/appointment/manage" class="appointment-btn admin-btn" title="Manage all appointments">
+                        📋 Manage Appointments
+                    </a>
+                <% } else { %>
+                    <a href="/appointment/my-appointments" class="appointment-btn user-btn" title="View my appointments">
+                        📅 My Appointments
+                    </a>
+                <% } %>
+                
+                <a title="Click to log out" href="/account/logout">Logout</a>
+            </div>
         <% } else { %>
             <a title="Click to log in" href="/account/login">My Account</a>
         <% } %>

@@ -60,7 +60,6 @@ Util.buildClassificationGrid = async function(data){
   return grid
 };
 
-
 /* **************************************
 *Building the car's detail view HTML
 * ************************************ */
@@ -99,6 +98,9 @@ Util.buildCarDetailGrid = async function (data) {
         new Intl.NumberFormat("en-US").format(vehicle.inv_miles) +
         "</p>";
 
+      // TEST DRIVE APPOINTMENT BUTTON - NEW CODE
+      car += '<div class="action-buttons">';
+      
       if (vehicle.inv_model === "DeLorean") {
         car +=
           '<a class="cta-button" href="/own/special/' +
@@ -114,6 +116,19 @@ Util.buildCarDetailGrid = async function (data) {
           vehicle.inv_model +
           ' details"><button>Buy now!</button></a>';
       }
+      
+      // Add Test Drive button
+      car +=
+        '<a class="cta-button test-drive" href="/appointment/book/' +
+        vehicle.inv_id +
+        '" title="Schedule a test drive for ' +
+        vehicle.inv_make +
+        " " +
+        vehicle.inv_model +
+        '"><button class="test-drive-btn">Schedule Test Drive</button></a>';
+      
+      car += '</div>'; // End action-buttons
+      // END NEW CODE
 
       car += "</div>";
       car += "</div>";
@@ -124,6 +139,9 @@ Util.buildCarDetailGrid = async function (data) {
   }
   return car;
 };
+
+
+
 
 /* **************************************
 * Build the classification select list HTML

@@ -1,0 +1,91 @@
+<% if (title) { %>
+  <h1><%= title %></h1>
+<% } else {
+  res.redirect('/')
+} %>
+
+<%- messages() %>
+
+<% if (errors) { %>
+  <ul class="notice">
+    <% errors.array().forEach(error => { %>
+      <li><%= error.msg %></li>
+    <% }) %>
+  </ul>
+<% } %>
+
+<div class="appointment-container">
+  <div class="vehicle-info">
+    <h2>Vehicle Information</h2>
+    <div class="vehicle-summary">
+      <img src="<%= vehicle.inv_thumbnail %>" alt="<%= vehicle.inv_make %> <%= vehicle.inv_model %>">
+      <div class="vehicle-details">
+        <h3><%= vehicle.inv_year %> <%= vehicle.inv_make %> <%= vehicle.inv_model %></h3>
+        <p><strong>Color:</strong> <%= vehicle.inv_color %></p>
+        <p><strong>Price:</strong> $<%= new Intl.NumberFormat('en-US').format(vehicle.inv_price) %></p>
+        <p><strong>Mileage:</strong> <%= new Intl.NumberFormat('en-US').format(vehicle.inv_miles) %> miles</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="booking-form-container">
+    <h2>Schedule Your Test Drive</h2>
+    <p>Please select your preferred date and time for the test drive. We'll contact you to confirm your appointment.</p>
+    
+    <form id="appointmentForm" action="/appointment/book" method="post">
+      <input type="hidden" name="inv_id" value="<%= inv_id %>">
+      
+      <div class="form-group">
+        <label for="appointment_date">Preferred Date:</label>
+        <input 
+          type="date" 
+          id="appointment_date" 
+          name="appointment_date" 
+          min="<%= new Date().toISOString().split('T')[0] %>"
+          max="<%= new Date(Date.now() + 60*24*60*60*1000).toISOString().split('T')[0] %>"
+          value="<%= locals.appointment_date || '' %>"
+          required>
+        <p class="help-text">Appointments available Monday-Friday</p>
+      </div>
+
+      <div class="form-group">
+        <label for="appointment_time">Preferred Time:</label>
+        <select id="appointment_time" name="appointment_time" required>
+          <option value="">Select a time</option>
+          <option value="09:00" <%= locals.appointment_time === '09:00' ? 'selected' : '' %>>9:00 AM</option>
+          <option value="09:30" <%= locals.appointment_time === '09:30' ? 'selected' : '' %>>9:30 AM</option>
+          <option value="10:00" <%= locals.appointment_time === '10:00' ? 'selected' : '' %>>10:00 AM</option>
+          <option value="10:30" <%= locals.appointment_time === '10:30' ? 'selected' : '' %>>10:30 AM</option>
+          <option value="11:00" <%= locals.appointment_time === '11:00' ? 'selected' : '' %>>11:00 AM</option>
+          <option value="11:30" <%= locals.appointment_time === '11:30' ? 'selected' : '' %>>11:30 AM</option>
+          <option value="12:00" <%= locals.appointment_time === '12:00' ? 'selected' : '' %>>12:00 PM</option>
+          <option value="12:30" <%= locals.appointment_time === '12:30' ? 'selected' : '' %>>12:30 PM</option>
+          <option value="13:00" <%= locals.appointment_time === '13:00' ? 'selected' : '' %>>1:00 PM</option>
+          <option value="13:30" <%= locals.appointment_time === '13:30' ? 'selected' : '' %>>1:30 PM</option>
+          <option value="14:00" <%= locals.appointment_time === '14:00' ? 'selected' : '' %>>2:00 PM</option>
+          <option value="14:30" <%= locals.appointment_time === '14:30' ? 'selected' : '' %>>2:30 PM</option>
+          <option value="15:00" <%= locals.appointment_time === '15:00' ? 'selected' : '' %>>3:00 PM</option>
+          <option value="15:30" <%= locals.appointment_time === '15:30' ? 'selected' : '' %>>3:30 PM</option>
+          <option value="16:00" <%= locals.appointment_time === '16:00' ? 'selected' : '' %>>4:00 PM</option>
+          <option value="16:30" <%= locals.appointment_time === '16:30' ? 'selected' : '' %>>4:30 PM</option>
+        </select>
+        <p class="help-text">Business hours: 9:00 AM - 5:00 PM</p>
+      </div>
+
+      <div class="form-group">
+        <label for="notes">Additional Notes (Optional):</label>
+        <textarea 
+          id="notes" 
+          name="notes" 
+          rows="4" 
+          maxlength="500"
+          placeholder="Any special requests or questions? (Max 500 characters)"><%= locals.notes || '' %></textarea>
+      </div>
+
+      <div class="form-group">
+        <button type="submit" class="form-btn">Request Test Drive</button>
+        <a href="/inv/detail/<%= inv_id %>" class="cancel-btn">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>
